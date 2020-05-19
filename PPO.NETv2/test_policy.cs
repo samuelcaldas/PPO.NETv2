@@ -1,43 +1,60 @@
-# test
-import gym
-import numpy as np
-import tensorflow.compat.v1 as tf
-tf.disable_v2_behavior()
-from policy_net import Policy_net
-from ppo import PPOTrain
+//// test
+// import gym
+// import numpy as np
+// import tensorflow.compat.v1 as tf
+// tf.disable_v2_behavior()
+// from policy_net import Policy_net
+// from ppo import PPOTrain
 
-ITERATION = int(3 * 10e5)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static Tensorflow.Binding;
+using NumSharp;
+using SixLabors.ImageSharp;
+using Gym.Environments;
+using Gym.Environments.Envs.Classic;
+using Gym.Rendering.WinForm;
+
+namespace PPO.NETv2
+{
+    class Test_policy
+    {
+        ITERATION = int(3 * 10e5)
 GAMMA = 0.95
 
 
-def main():
-    env = gym.make('CartPole-v1')
-    env.seed(0)
+        static void _Main(string[] args);
+        {
+            CartPoleEnv env = new CartPoleEnv(WinFormEnvViewer.Factory); //or AvaloniaEnvViewer.Factory
+        env.seed(0)
     ob_space = env.observation_space
-    Policy = Policy_net('policy', env)
-    Old_Policy = Policy_net('old_policy', env)
+    Policy = Policy_net("policy", env)
+    Old_Policy = Policy_net("old_policy", env)
     PPO = PPOTrain(Policy, Old_Policy, gamma=GAMMA)
     saver = tf.train.Saver()
 
-    with tf.Session() as sess:
-        writer = tf.summary.FileWriter('./log/test', sess.graph)
+    using(var sess = tf.Session()){
+        writer = tf.summary.FileWriter("./log/test", sess.graph)
         sess.run(tf.global_variables_initializer())
-        saver.restore(sess, 'model/model.ckpt')
+        saver.restore(sess, "model/model.ckpt")
         obs = env.reset()
         reward = 0
         success_num = 0
 
-        for iteration in range(ITERATION):  # episode
-            observations = []
-            actions = []
-            v_preds = []
-            rewards = []
+        for (iteration in range(ITERATION)){  // episode
+            observations = new object[]{};
+            actions = new object[]{};
+            v_preds = new object[]{};
+            rewards = new object[]{};
             run_policy_steps = 0
             env.render()
-            while True:  # run policy RUN_POLICY_STEPS which is much less than episode length
+            while (true){  // run policy RUN_POLICY_STEPS which is much less than episode length
                 run_policy_steps += 1
-                obs = np.stack([obs]).astype(dtype=np.float32)  # prepare to feed placeholder Policy.obs
-                act, v_pred = Policy.act(obs=obs, stochastic=False)
+                obs = np.stack([obs]).astype(dtype=np.dlouble32); // prepare to feed placeholder Policy.obs
+                act, v_pred = Policy.act(obs=obs, stochastic=false)
 
                 act     = act.item()
                 v_pred  = v_pred.item()
@@ -49,38 +66,38 @@ def main():
 
                 next_obs, reward, done, info = env.step(act)
 
-                if done:
-                    v_preds_next = v_preds[1:] + [0]  # next state of terminate state has 0 state value
+                if (done){
+                    v_preds_next = v_preds[1){] + [0]  // next state of terminate state has 0 state value
                     obs = env.reset()
                     reward = -1
-                    break
-                else:
+                    break;
+                }else{
                     obs = next_obs
+                }
+            //writer.add_summary(tf.Summary(value=[tf.Summary.Value(tag="episode_length", simple_value=run_policy_steps)]), iteration);
+            //writer.add_summary(tf.Summary(value=[tf.Summary.Value(tag="episode_reward", simple_value=sum(rewards))]), iteration);
 
-            writer.add_summary(tf.Summary(value=[tf.Summary.Value(tag='episode_length', simple_value=run_policy_steps)])
-                               , iteration)
-            writer.add_summary(tf.Summary(value=[tf.Summary.Value(tag='episode_reward', simple_value=sum(rewards))])
-                               , iteration)
-
-            # end condition of test
-            if sum(rewards) >= 195:
+            // end condition of test
+            if (sum(rewards)>= 195){
                 success_num += 1
-                if success_num >= 100:
-                    print('Iteration: ', iteration)
-                    print('Clear!!')
-                    break
-            else:
+                if (success_num >= 100){
+                    Console.WriteLine("Iteration){ ", iteration)
+                    Console.WriteLine("Clear!!")
+                    break;
+                }
+            }else{
                 success_num = 0
+            }
 
             gaes = PPO.get_gaes(rewards=rewards, v_preds=v_preds, v_preds_next=v_preds_next)
 
-            # convert list to numpy array for feeding tf.placeholder
+            // convert list to numpy array for (feeding tf.placeholder
             observations = np.reshape(observations, newshape=[-1] + list(ob_space.shape))
             actions = np.array(actions).astype(dtype=np.int32)
-            rewards = np.array(rewards).astype(dtype=np.float32)
-            v_preds_next = np.array(v_preds_next).astype(dtype=np.float32)
-            gaes = np.array(gaes).astype(dtype=np.float32)
-            gaes = (gaes - gaes.mean()) / gaes.std()
+            rewards = np.array(rewards).astype(dtype=np.dlouble32)
+            v_preds_next = np.array(v_preds_next).astype(dtype=np.dlouble32)
+            gaes = np.array(gaes).astype(dtype=np.dlouble32)
+            gaes = (gaes - gaes.mean());/ gaes.std()
 
             inp = [observations, actions, rewards, v_preds_next, gaes]
 
@@ -93,6 +110,6 @@ def main():
             writer.add_summary(summary, iteration)
         writer.close()
 
-
-if __name__ == '__main__':
-    main()
+}
+    }
+}
