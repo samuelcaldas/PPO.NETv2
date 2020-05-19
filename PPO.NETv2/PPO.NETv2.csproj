@@ -44,7 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
+    <Compile Include="policy_net.cs" />
+    <Compile Include="ppo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="test_policy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
