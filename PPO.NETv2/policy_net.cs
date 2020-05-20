@@ -64,20 +64,24 @@ namespace PPO.NETv2
                 this.scope = tf.get_variable_scope().name;
             }
         }
-        public (string, string) act(NDArray obs, bool stochastic = true)
+        public (NDArray, NDArray) act(NDArray obs, bool stochastic = true)
         {
             if (stochastic)
             {
                 NDArray result = tf.get_default_session().run(new[] { this.act_stochastic, this.v_preds }, feed_dict: new FeedItem[] { new FeedItem(this.obs, obs) });
-                var act = result.GetItem(0);
-                var v_pred = result.GetItem(1);
+                //NDArray act = result.GetItem(0);
+                //NDArray v_pred = result.GetItem(1);
+                NDArray act = result[0];
+                NDArray v_pred = result[1];
                 return (act, v_pred);
             }
             else
             {
                 NDArray result = tf.get_default_session().run(new[] { this.act_deterministic, this.v_preds }, feed_dict: new FeedItem[] { new FeedItem(this.obs, obs) });
-                string act      = result.GetItem(0);
-                string v_pred   = result.GetItem(1);
+                //NDArray act      = result.GetItem(0);
+                //NDArray v_pred   = result.GetItem(1);                
+                NDArray act = result[0];
+                NDArray v_pred = result[1];
                 return (act, v_pred);
             }
         }

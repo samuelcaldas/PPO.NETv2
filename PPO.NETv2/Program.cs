@@ -61,12 +61,12 @@ namespace PPO.NETv2
 
                     while (true) // Execute a política RUN_POLICY_STEPS, que é muito menor que a duração do episódio
                     {
-                        run_policy_steps += 1;                               // Incrementa contador de passos de cada episodio
-                        obs = np.stack(new[] { obs }).astype(dtype: np.float32);     // prepare to feed placeholder Policy.obs
-                        var (act, v_pred) = Policy.act(obs: obs, stochastic: true); // Corre a rede neural e obtêm uma ação e o V previsto
-
-                        act = act.item();           // Transforma um array do numpy 
-                        v_pred = v_pred.item();    // em um objeto scalar do Python
+                        run_policy_steps += 1;                                                      // Incrementa contador de passos de cada episodio
+                        obs = np.stack(new[] { obs }).astype(dtype: np.float32);                    // prepare to feed placeholder Policy.obs
+                        (NDArray _act, NDArray _v_pred) = Policy.act(obs: obs, stochastic: true);   // Corre a rede neural e obtêm uma ação e o V previsto
+                        int act         = np.asscalar<int>(_act.ToArray<int>());            // Transforma um array do numpy 
+                        NDArray v_pred  = np.asscalar<double[]>(_v_pred.ToArray<double>());         // em um objeto scalar do Python
+                        //var v_pred = _v_pred.Item();  // em um objeto scalar do Python
 
                         observations.Add(obs);   // Adiciona a observação ao buffer de observações
                         actions.Add(act);        // Adiciona a ação ao buffer de ações
@@ -127,16 +127,16 @@ namespace PPO.NETv2
 
                     PPO.assign_policy_parameters();
 
-                    object[] inp = new object[] { _observations, _actions, _rewards, _v_preds_next, _gaes };  // Cria um array com 5 colunas: observações, ações, recompensas, 
+                    NDArray[] inp = new[] { _observations, _actions, _rewards, _v_preds_next, _gaes };  // Cria um array com 5 colunas: observações, ações, recompensas, 
 
                     // Treina
                     for (int epoch = 0; epoch < 4; epoch++)
                     {
                         NDArray sample_indices = np.random.randint(low: 0, high: observations.ToArray().GetLength(0), size: new Shape(64));// índices estão em [baixo, alto]
-                        var sampled_inp = new List<object>();
-                        foreach (var a in inp)
+                        var sampled_inp = new List<NDArray>();
+                        foreach (NDArray arr in inp)
                         {
-                            sampled_inp.Add(np.Take(a: a, indices: sample_indices, axis: 0));   // amostra de dados de treinamento
+                            sampled_inp.Add(np.Take(a: arr, indices: sample_indices, axis: 0));   // amostra de dados de treinamento
                         }
                         PPO.train(obs: sampled_inp[0], actions: sampled_inp[1], rewards: sampled_inp[2], v_preds_next: sampled_inp[3], gaes: sampled_inp[4]);
                     }

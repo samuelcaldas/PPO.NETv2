@@ -54,7 +54,7 @@ namespace PPO.NETv2
             // atribuir operações para valores de parâmetros de política a parâmetros de política antigos
             using (tf.variable_scope("assign_op"))
             {
-                foreach ((var v_old, var v) in zip(old_pi_trainable, pi_trainable))
+                foreach ((Tensor v_old, Tensor v) in zip(old_pi_trainable, pi_trainable))
                 {
                     this.assign_ops.Add(tf.assign(v_old, v));
                 }
@@ -115,7 +115,7 @@ namespace PPO.NETv2
             Optimizer optimizer = tf.train.AdamOptimizer(learning_rate: (float)1e-4, epsilon: (float)1e-5);
             this.train_op = optimizer.minimize(loss, var_list: pi_trainable);
         }
-        public void train(string obs, string actions, string rewards, string v_preds_next, string gaes)
+        public void train(NDArray obs, NDArray actions, NDArray rewards, NDArray v_preds_next, NDArray gaes)
         {
             tf.get_default_session().run(
                 new[] { this.train_op },
@@ -129,7 +129,7 @@ namespace PPO.NETv2
                 }
             );
         }
-        public NDArray get_summary(string obs, string actions, string rewards, string v_preds_next, string gaes)
+        public NDArray get_summary(NDArray obs, NDArray actions, NDArray rewards, NDArray v_preds_next, NDArray gaes)
         {
             return tf.get_default_session().run(
                 new[] { this.merged },
