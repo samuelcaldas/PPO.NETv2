@@ -41,7 +41,7 @@ namespace PPO.NETv2
 
             using (tf.variable_scope(name))
             {
-                this.obs = tf.placeholder(dtype: tf.float32, Shape:(null, list(ob_space.Shape)), name: "obs");
+                this.obs = tf.placeholder(dtype: tf.float32, Shape:([null]+ list(ob_space.Shape)), name: "obs");
 
                 using (tf.variable_scope("policy_net"))
                 {
@@ -68,14 +68,14 @@ namespace PPO.NETv2
         {
             if (stochastic)
             {
-                var result = tf.get_default_session().run(new[] { this.act_stochastic, this.v_preds }, feed_dict: new FeedItem[] { new FeedItem(this.obs, obs) });
+                NDArray result = tf.get_default_session().run(new[] { this.act_stochastic, this.v_preds }, feed_dict: new FeedItem[] { new FeedItem(this.obs, obs) });
                 var act = result.GetItem(0);
                 var v_pred = result.GetItem(0);
                 return (act, v_pred);
             }
             else
             {
-                var result = tf.get_default_session().run(new[] { this.act_deterministic, this.v_preds }, feed_dict: new FeedItem[] { new FeedItem(this.obs, obs) });
+                NDArray result = tf.get_default_session().run(new[] { this.act_deterministic, this.v_preds }, feed_dict: new FeedItem[] { new FeedItem(this.obs, obs) });
                 string act      = result.GetItem(0);
                 string v_pred   = result.GetItem(0);
                 return (act, v_pred);

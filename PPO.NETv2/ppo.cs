@@ -152,10 +152,10 @@ namespace PPO.NETv2
             // Atribuir valores de parâmetro de política a parâmetros de política antigos
             return tf.get_default_session().run(this.assign_ops);
         }
-        public void get_gaes(string rewards, Tensor v_preds, Tensor v_preds_next)
+        public void get_gaes(List<double> rewards, Tensor v_preds, Tensor v_preds_next)
         {
             List<string> gaes = new List<string>();
-            foreach ((string r_t, string v_next, string v) in zip<string, string, string>(rewards, v_preds_next, v_preds))
+            foreach ((string r_t, string v_next, string v) in zip<double, string, string>(rewards, v_preds_next, v_preds))
             {
                 gaes.add(r_t + this.gamma * v_next - v);
             }
