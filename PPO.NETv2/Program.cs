@@ -50,7 +50,7 @@ namespace PPO.NETv2
                 FileWriter writer = tf.summary.FileWriter("./log/train", sess.graph);   // Define diretório de logs
                 sess.run(tf.global_variables_initializer());                            // Inicializa as redes
 
-                NDArray obs = env.Reset();  // Reseta o ambiente e obtêm a primeira observação
+                NDArray obs = env.Reset();  // Resets o ambiente e obtêm a primeira observação
                 double reward = 0;          // Armazena as recompensas
                 int success_num = 0;        // Contador de sucessos
 
@@ -118,12 +118,12 @@ namespace PPO.NETv2
 
                     // Converte lista em NPArray para alimentar o tf.placeholder
                     //int[] newShape = ((-1), (list(ob_space.Shape)));// cria um array [-1, 4]
-                    var _observations = np.reshape(observations.ToArray(), shape: ((-1), (4)));// antes, cada linha de observations era um array idependente. depois do reshape, observations passou ser um array só com varias linhas.
+                    var _observations = np.reshape(observations.ToArray(), shape: ((-1), (4)));// antes, cada linha de observations era um array independente. depois do reshape, observations passou ser um array só com varias linhas.
                     var _actions = np.array(actions.ToArray(), dtype: np.int32);
                     var _rewards = np.array(rewards.ToArray(), dtype: np.float32);
                     var _v_preds_next = np.array(v_preds_next.ToArray(), dtype: np.float32);
                     var __gaes = np.array(gaes.ToArray(), dtype: np.float32);
-                    var _gaes = (__gaes - __gaes.mean()) / __gaes.std();    // subtrai dos itens de gaes a media de todos os itens de gaes e divide todos pelo desvio padrao de gaes
+                    var _gaes = (__gaes - __gaes.mean()) / __gaes.std();    // subtrai dos itens de gaes a media de todos os itens de gaes e divide todos pelo desvio padrão de gaes
 
                     PPO.assign_policy_parameters();
 
@@ -136,7 +136,11 @@ namespace PPO.NETv2
                         var sampled_inp = new List<NDArray>();
                         foreach (NDArray arr in inp)
                         {
-                            sampled_inp.Add(np.Take(a: arr, indices: sample_indices, axis: 0));   // amostra de dados de treinamento
+                            foreach (int indice in sample_indices.ToArray<int>())
+                            {
+                                sampled_inp.Add(arr[0][indice]);
+                            }
+                            //sampled_inp.Add(np.Take(a: arr, índices: sample_indices, axis: 0));   // amostra de dados de treinamento
                         }
                         PPO.train(obs: sampled_inp[0], actions: sampled_inp[1], rewards: sampled_inp[2], v_preds_next: sampled_inp[3], gaes: sampled_inp[4]);
                     }
