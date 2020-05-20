@@ -56,29 +56,27 @@ namespace PPO.NETv2
             {
                 foreach ((var v_old, var v) in zip(old_pi_trainable, pi_trainable))
                 {
-                    this.assign_ops.add(tf.assign(v_old, v));
+                    this.assign_ops.Add(tf.assign(v_old, v));
                 }
             }
             // inputs for (train_op
             // inputs para train_op
             using (tf.variable_scope("train_inp"))
             {
-                this.actions = tf.placeholder(dtype: tf.int32, Shape:[null], name: "actions");
-                this.rewards = tf.placeholder(dtype: tf.float32, Shape:[null], name: "rewards");
-                this.v_preds_next = tf.placeholder(dtype: tf.float32, Shape:[null], name: "v_preds_next");
-                this.gaes = tf.placeholder(dtype: tf.float32, Shape:[null], name: "gaes");
+                this.actions = tf.placeholder(dtype: tf.int32, shape:(Unknown), name: "actions");
+                this.rewards = tf.placeholder(dtype: tf.float32, shape: (Unknown), name: "rewards");
+                this.v_preds_next = tf.placeholder(dtype: tf.float32, shape: (Unknown), name: "v_preds_next");
+                this.gaes = tf.placeholder(dtype: tf.float32, shape: (Unknown), name: "gaes");
             }
             Tensor act_probs = Policy.act_probs;
             Tensor act_probs_old = Old_Policy.act_probs;
 
-            // probabilities of actions which agent took using (policy
             // probabilidades de ações que o agente executou com a política
-            act_probs = act_probs * tf.one_hot(indices: this.actions, depth: act_probs.Shape[1]);
+            act_probs = act_probs * tf.one_hot(indices: this.actions, depth: act_probs.ToArray<double>().GetLength(1));
             act_probs = tf.reduce_sum(act_probs, axis: 1);
 
-            // probabilities of actions which agent took using (old policy
             // probabilidades de ações que o agente executou com a política antiga
-            act_probs_old = act_probs_old * tf.one_hot(indices: this.actions, depth: act_probs_old.Shape[1]);
+            act_probs_old = act_probs_old * tf.one_hot(indices: this.actions, depth: act_probs_old.ToArray<double>().GetLength(1));
             act_probs_old = tf.reduce_sum(act_probs_old, axis: 1);
 
             using (tf.variable_scope("loss/clip"))
@@ -95,7 +93,7 @@ namespace PPO.NETv2
             using (tf.variable_scope("loss/vf"))
             {
                 Tensor v_preds = Policy.v_preds;
-                loss_vf = tf.squared_difference(this.rewards + gamma * this.v_preds_next, v_preds);
+                loss_vf = tf.squared_difference(this.rewards + (gamma * this.v_preds_next), v_preds);
                 loss_vf = tf.reduce_mean(loss_vf);
                 tf.summary.scalar("loss_vf", loss_vf);
             }
@@ -104,8 +102,7 @@ namespace PPO.NETv2
             using (tf.variable_scope("loss/entropy"))
             {
                 entropy = -tf.reduce_sum(Policy.act_probs * tf.log(tf.clip_by_value(Policy.act_probs, new Tensor(1e-10), new Tensor(1.0))), axis: 1);
-                entropy = tf.reduce_mean(entropy, axis: 0);  // mean of entropy of pi(obs)
-                                                             // média de entropia de pi (obs)
+                entropy = tf.reduce_mean(entropy, axis: new[] { 0 });   // média de entropia de pi (obs)
                 tf.summary.scalar("entropy", entropy);
             }
             using (tf.variable_scope("loss"))
@@ -115,7 +112,7 @@ namespace PPO.NETv2
                 tf.summary.scalar("loss", loss);
             }
             this.merged = tf.summary.merge_all();
-            Optimizer optimizer = tf.train.AdamOptimizer(learning_rate: 1e-4, epsilon: 1e-5);
+            Optimizer optimizer = tf.train.AdamOptimizer(learning_rate: (float)1e-4, epsilon: (float)1e-5);
             this.train_op = optimizer.minimize(loss, var_list: pi_trainable);
         }
         public void train(string obs, string actions, string rewards, string v_preds_next, string gaes)
@@ -152,12 +149,12 @@ namespace PPO.NETv2
             // Atribuir valores de parâmetro de política a parâmetros de política antigos
             return tf.get_default_session().run(this.assign_ops);
         }
-        public void get_gaes(List<double> rewards, Tensor v_preds, Tensor v_preds_next)
+        public List<NDArray> get_gaes(List<double> rewards, List<NDArray> v_preds, List<NDArray> v_preds_next)
         {
-            List<string> gaes = new List<string>();
-            foreach ((string r_t, string v_next, string v) in zip<double, string, string>(rewards, v_preds_next, v_preds))
+            List<NDArray> gaes = new List<NDArray>();
+            foreach ((double r_t, NDArray v_next, NDArray v) in zip<double, NDArray, NDArray>(rewards, v_preds_next, v_preds))
             {
-                gaes.add(r_t + this.gamma * v_next - v);
+                gaes.Add(r_t + this.gamma * v_next - v);
             }
             // calculate generative advantage estimator(lambda = 1), see ppo paper eq(11)
             // calcular o estimador de vantagem generativa (lambda = 1), consulte o documento ppo eq(11)

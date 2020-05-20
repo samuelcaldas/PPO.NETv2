@@ -36,28 +36,28 @@ namespace PPO.NETv2
             :param temp: temperature of boltzmann distribution
             */
 
-            Space ob_space = env.ObservationSpace;
-            Space act_space = env.ActionSpace;
+            var ob_space = env.ObservationSpace;
+            var act_space = env.ActionSpace;
 
             using (tf.variable_scope(name))
             {
-                this.obs = tf.placeholder(dtype: tf.float32, Shape:([null]+ list(ob_space.Shape)), name: "obs");
+                this.obs = tf.placeholder(dtype: tf.float32, shape: new TensorShape((Unknown),(4)), name: "obs");
 
                 using (tf.variable_scope("policy_net"))
                 {
-                    var layer_1 = tf.layers.dense(inputs: this.obs, units: 20, activation: tf.tanh);
-                    var layer_2 = tf.layers.dense(inputs: layer_1, units: 20, activation: tf.tanh);
-                    var layer_3 = tf.layers.dense(inputs: layer_2, units: act_space.n, activation: tf.tanh);
-                    this.act_probs = tf.layers.dense(inputs: tf.divide(layer_3, new Tensor(temp)), units: act_space.n, activation: tf.nn.softmax);
+                    var layer_1 = tf.layers.dense(inputs: this.obs, units: 20, activation: tf.nn.tanh());
+                    var layer_2 = tf.layers.dense(inputs: layer_1, units: 20, activation: tf.nn.tanh());
+                    var layer_3 = tf.layers.dense(inputs: layer_2, units: 4, activation: tf.nn.tanh());
+                    this.act_probs = tf.layers.dense(inputs: tf.divide(layer_3, new Tensor(temp)), units: 4, activation: tf.nn.softmax());
                 }
                 using (tf.variable_scope("value_net"))
                 {
-                    var layer_1 = tf.layers.dense(inputs:   this.obs,   units: 20,  activation: tf.tanh);
-                    var layer_2 = tf.layers.dense(inputs:   layer_1,    units: 20,  activation: tf.tanh);
+                    var layer_1 = tf.layers.dense(inputs:   this.obs,   units: 20,  activation: tf.nn.tanh());
+                    var layer_2 = tf.layers.dense(inputs:   layer_1,    units: 20,  activation: tf.nn.tanh());
                     this.v_preds = tf.layers.dense(inputs:  layer_2,    units: 1,   activation: null);
                 }
                 this.act_stochastic = tf.random.categorical(tf.log(this.act_probs), num_samples: 1);
-                this.act_stochastic = tf.reshape(this.act_stochastic, Shape:[-1]);
+                this.act_stochastic = tf.reshape(this.act_stochastic, shape:(-1));
 
                 this.act_deterministic = tf.argmax(this.act_probs, axis: 1);
 
@@ -70,14 +70,14 @@ namespace PPO.NETv2
             {
                 NDArray result = tf.get_default_session().run(new[] { this.act_stochastic, this.v_preds }, feed_dict: new FeedItem[] { new FeedItem(this.obs, obs) });
                 var act = result.GetItem(0);
-                var v_pred = result.GetItem(0);
+                var v_pred = result.GetItem(1);
                 return (act, v_pred);
             }
             else
             {
                 NDArray result = tf.get_default_session().run(new[] { this.act_deterministic, this.v_preds }, feed_dict: new FeedItem[] { new FeedItem(this.obs, obs) });
                 string act      = result.GetItem(0);
-                string v_pred   = result.GetItem(0);
+                string v_pred   = result.GetItem(1);
                 return (act, v_pred);
             }
         }

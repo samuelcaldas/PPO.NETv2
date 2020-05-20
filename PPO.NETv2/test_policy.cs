@@ -47,7 +47,7 @@ namespace PPO.NETv2
                 reward = 0;
                 success_num = 0;
 
-                for (iteration in range(ITERATION))
+                for (double iteration =0; iteration < ITERATION; iteration++)
                 {  // episode
                     run_policy_steps = 0;
                     env.render();
@@ -118,7 +118,7 @@ namespace PPO.NETv2
 
                     writer.add_summary(summary, iteration);
                 }
-                writer.close();
+                //writer.close();
 
             }
         }
