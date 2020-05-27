@@ -5,4 +5,5 @@
 /log/
 .vscode/
 /PPO.NETv2/packages
-/PPO.NETv2/bin/Debug
+/PPO.NETv2/bin
+/PPO.NETv2/obj
