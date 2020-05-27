@@ -46,8 +46,8 @@ namespace PPO.NETv2
                 using (tf.variable_scope("policy_net"))
                 {
                     var layer_1 = tf.layers.dense(inputs: this.obs, units: 20, activation: tf.nn.tanh());
-                    var layer_2 = tf.layers.dense(inputs: layer_1, units: 20, activation: tf.nn.tanh());
-                    var layer_3 = tf.layers.dense(inputs: layer_2, units: 4, activation: tf.nn.tanh());
+                    var layer_2 = tf.layers.dense(inputs: layer_1,  units: 20, activation: tf.nn.tanh());
+                    var layer_3 = tf.layers.dense(inputs: layer_2,  units: 4,  activation: tf.nn.tanh());
                     this.act_probs = tf.layers.dense(inputs: tf.divide(layer_3, new Tensor(temp)), units: 4, activation: tf.nn.softmax());
                 }
                 using (tf.variable_scope("value_net"))
