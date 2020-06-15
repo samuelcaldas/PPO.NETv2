@@ -94,20 +94,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\SciSharp\Gym.NET\src\Gym.Environments\Gym.Environments.csproj">
-      <Project>{149f54f3-8396-443f-8dc6-672c7db9c4ac}</Project>
-      <Name>Gym.Environments</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SciSharp\Gym.NET\src\Gym.Rendering.WinForm\Gym.Rendering.WinForm.csproj">
-      <Project>{e35bc24b-0b25-4b28-b372-75bd67ecfc76}</Project>
-      <Name>Gym.Rendering.WinForm</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SciSharp\Gym.NET\src\Gym\Gym.csproj">
-      <Project>{c0b8b3ec-2e75-4a08-9220-1db9b8583cbe}</Project>
-      <Name>Gym</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -1,3 +1,6 @@
 [submodule "TensorFlow.NET"]
 	path = TensorFlow.NET
 	url = https://github.com/samuelcaldas/TensorFlow.NET.git
+[submodule "Gym.NET"]
+	path = Gym.NET
+	url = https://github.com/samuelcaldas/Gym.NET.git
