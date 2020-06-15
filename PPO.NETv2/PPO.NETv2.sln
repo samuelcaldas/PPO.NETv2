@@ -108,7 +108,6 @@ Global
 		{3A6EB896-604F-4E25-B677-B8103BCF3D2E}.Debug-Minimal|Any CPU.ActiveCfg = Debug|Any CPU
 		{3A6EB896-604F-4E25-B677-B8103BCF3D2E}.Debug-Minimal|Any CPU.Build.0 = Debug|Any CPU
 		{3A6EB896-604F-4E25-B677-B8103BCF3D2E}.Debug-Minimal|x64.ActiveCfg = Debug|x64
-		{3A6EB896-604F-4E25-B677-B8103BCF3D2E}.Debug-Minimal|x64.Build.0 = Debug|x64
 		{3A6EB896-604F-4E25-B677-B8103BCF3D2E}.Debug-Minimal|x86.ActiveCfg = Debug|Any CPU
 		{3A6EB896-604F-4E25-B677-B8103BCF3D2E}.Debug-Minimal|x86.Build.0 = Debug|Any CPU
 		{3A6EB896-604F-4E25-B677-B8103BCF3D2E}.Publish|Any CPU.ActiveCfg = Release|Any CPU
@@ -132,7 +131,6 @@ Global
 		{23C28035-2FCE-41F3-9A12-E73CE8A5AE32}.Debug-Minimal|Any CPU.ActiveCfg = Debug|Any CPU
 		{23C28035-2FCE-41F3-9A12-E73CE8A5AE32}.Debug-Minimal|Any CPU.Build.0 = Debug|Any CPU
 		{23C28035-2FCE-41F3-9A12-E73CE8A5AE32}.Debug-Minimal|x64.ActiveCfg = Debug|x64
-		{23C28035-2FCE-41F3-9A12-E73CE8A5AE32}.Debug-Minimal|x64.Build.0 = Debug|x64
 		{23C28035-2FCE-41F3-9A12-E73CE8A5AE32}.Debug-Minimal|x86.ActiveCfg = Debug|Any CPU
 		{23C28035-2FCE-41F3-9A12-E73CE8A5AE32}.Debug-Minimal|x86.Build.0 = Debug|Any CPU
 		{23C28035-2FCE-41F3-9A12-E73CE8A5AE32}.Publish|Any CPU.ActiveCfg = Release|Any CPU
@@ -180,7 +178,6 @@ Global
 		{EB92DD90-6346-41FB-B967-2B33A860AD98}.Debug-Minimal|Any CPU.ActiveCfg = Debug|Any CPU
 		{EB92DD90-6346-41FB-B967-2B33A860AD98}.Debug-Minimal|Any CPU.Build.0 = Debug|Any CPU
 		{EB92DD90-6346-41FB-B967-2B33A860AD98}.Debug-Minimal|x64.ActiveCfg = Debug|x64
-		{EB92DD90-6346-41FB-B967-2B33A860AD98}.Debug-Minimal|x64.Build.0 = Debug|x64
 		{EB92DD90-6346-41FB-B967-2B33A860AD98}.Debug-Minimal|x86.ActiveCfg = Debug|Any CPU
 		{EB92DD90-6346-41FB-B967-2B33A860AD98}.Debug-Minimal|x86.Build.0 = Debug|Any CPU
 		{EB92DD90-6346-41FB-B967-2B33A860AD98}.Publish|Any CPU.ActiveCfg = Release|Any CPU
@@ -204,7 +201,6 @@ Global
 		{03F06299-3F4B-4449-A709-3A647657BC0C}.Debug-Minimal|Any CPU.ActiveCfg = Debug|Any CPU
 		{03F06299-3F4B-4449-A709-3A647657BC0C}.Debug-Minimal|Any CPU.Build.0 = Debug|Any CPU
 		{03F06299-3F4B-4449-A709-3A647657BC0C}.Debug-Minimal|x64.ActiveCfg = Debug|Any CPU
-		{03F06299-3F4B-4449-A709-3A647657BC0C}.Debug-Minimal|x64.Build.0 = Debug|Any CPU
 		{03F06299-3F4B-4449-A709-3A647657BC0C}.Debug-Minimal|x86.ActiveCfg = Debug|Any CPU
 		{03F06299-3F4B-4449-A709-3A647657BC0C}.Debug-Minimal|x86.Build.0 = Debug|Any CPU
 		{03F06299-3F4B-4449-A709-3A647657BC0C}.Publish|Any CPU.ActiveCfg = Debug|Any CPU
