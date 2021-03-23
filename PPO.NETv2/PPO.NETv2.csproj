@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\SciSharp.TensorFlow.Redist.2.2.0.2\build\netstandard2.0\SciSharp.TensorFlow.Redist.props" Condition="Exists('packages\SciSharp.TensorFlow.Redist.2.2.0.2\build\netstandard2.0\SciSharp.TensorFlow.Redist.props')" />
+  <Import Project="packages\SciSharp.TensorFlow.Redist.2.4.1\build\netstandard2.0\SciSharp.TensorFlow.Redist.props" Condition="Exists('packages\SciSharp.TensorFlow.Redist.2.4.1\build\netstandard2.0\SciSharp.TensorFlow.Redist.props')" />
   <Import Project="packages\Microsoft.Net.Compilers.Toolset.3.1.0\build\Microsoft.Net.Compilers.Toolset.props" Condition="Exists('packages\Microsoft.Net.Compilers.Toolset.3.1.0\build\Microsoft.Net.Compilers.Toolset.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -129,14 +129,6 @@
       <Project>{c0b8b3ec-2e75-4a08-9220-1db9b8583cbe}</Project>
       <Name>Gym</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TensorFlow.NET\src\TensorFlowNET.Core\Tensorflow.Binding.csproj">
-      <Project>{fd682ac0-7b2d-45d3-8b0d-c6d678b04144}</Project>
-      <Name>Tensorflow.Binding</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TensorFlow.NET\src\TensorFlowNET.Keras\Tensorflow.Keras.csproj">
-      <Project>{6268b461-486a-460b-9b3c-86493cbbaaf7}</Project>
-      <Name>Tensorflow.Keras</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -144,6 +136,6 @@
       <ErrorText>Este projeto faz referência a pacotes do NuGet que não estão presentes neste computador. Use a Restauração de Pacotes do NuGet para baixá-los.  Para obter mais informações, consulte http://go.microsoft.com/fwlink/?LinkID=322105. O arquivo ausente é {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('packages\Microsoft.Net.Compilers.Toolset.3.1.0\build\Microsoft.Net.Compilers.Toolset.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Net.Compilers.Toolset.3.1.0\build\Microsoft.Net.Compilers.Toolset.props'))" />
-    <Error Condition="!Exists('packages\SciSharp.TensorFlow.Redist.2.2.0.2\build\netstandard2.0\SciSharp.TensorFlow.Redist.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\SciSharp.TensorFlow.Redist.2.2.0.2\build\netstandard2.0\SciSharp.TensorFlow.Redist.props'))" />
+    <Error Condition="!Exists('packages\SciSharp.TensorFlow.Redist.2.4.1\build\netstandard2.0\SciSharp.TensorFlow.Redist.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\SciSharp.TensorFlow.Redist.2.4.1\build\netstandard2.0\SciSharp.TensorFlow.Redist.props'))" />
   </Target>
 </Project>
