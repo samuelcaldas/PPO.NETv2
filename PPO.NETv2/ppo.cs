@@ -47,14 +47,14 @@ namespace PPO.NETv2
             Policy = policy;
             Old_Policy = old_policy;
             this.gamma= gamma;
-            List<RefVariable> pi_trainable = Policy.get_trainable_variables();
-            List<RefVariable> old_pi_trainable = Old_Policy.get_trainable_variables();
+            List<IVariableV1> pi_trainable = Policy.get_trainable_variables() as List<IVariableV1>;
+            List<IVariableV1> old_pi_trainable = Old_Policy.get_trainable_variables();
 
             // assign_operations for (policy parameter values to old policy parameters
             // atribuir operações para valores de parâmetros de política a parâmetros de política antigos
             using (tf.variable_scope("assign_op"))
             {
-                foreach ((Tensor v_old, Tensor v) in zip(old_pi_trainable, pi_trainable))
+                foreach ((RefVariable v_old, Tensor v) in zip(old_pi_trainable, pi_trainable))
                 {
                     this.assign_ops.Add(tf.assign(v_old, v));
                 }

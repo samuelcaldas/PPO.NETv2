@@ -45,16 +45,16 @@ namespace PPO.NETv2
 
                 using (tf.variable_scope("policy_net"))
                 {
-                    var layer_1 = tf.layers.dense(inputs: this.obs, units: 20, activation: tf.nn.tanh());
-                    var layer_2 = tf.layers.dense(inputs: layer_1,  units: 20, activation: tf.nn.tanh());
-                    var layer_3 = tf.layers.dense(inputs: layer_2,  units: 4,  activation: tf.nn.tanh());
-                    this.act_probs = tf.layers.dense(inputs: tf.divide(layer_3, new Tensor(temp)), units: 4, activation: tf.nn.softmax());
+                    var layer_1 = keras.layers.dense(inputs: this.obs, units: 20, activation: tf.nn.tanh());
+                    var layer_2 = keras.layers.dense(inputs: layer_1,  units: 20, activation: tf.nn.tanh());
+                    var layer_3 = keras.layers.dense(inputs: layer_2,  units: 4,  activation: tf.nn.tanh());
+                    this.act_probs = keras.layers.dense(inputs: tf.divide(layer_3, new Tensor(temp)), units: 4, activation: tf.nn.softmax());
                 }
                 using (tf.variable_scope("value_net"))
                 {
-                    var layer_1 = tf.layers.dense(inputs:   this.obs,   units: 20,  activation: tf.nn.tanh());
-                    var layer_2 = tf.layers.dense(inputs:   layer_1,    units: 20,  activation: tf.nn.tanh());
-                    this.v_preds = tf.layers.dense(inputs:  layer_2,    units: 1,   activation: null);
+                    var layer_1 = keras.layers.dense(inputs:   this.obs,   units: 20,  activation: tf.nn.tanh());
+                    var layer_2 = keras.layers.dense(inputs:   layer_1,    units: 20,  activation: tf.nn.tanh());
+                    this.v_preds = keras.layers.dense(inputs:  layer_2,    units: 1,   activation: null);
                 }
                 this.act_stochastic = tf.random.categorical(tf.log(this.act_probs), num_samples: 1);
                 this.act_stochastic = tf.reshape(this.act_stochastic, shape:(-1));
@@ -89,13 +89,13 @@ namespace PPO.NETv2
         {
             return tf.get_default_session().run(this.act_probs, feed_dict: new FeedItem[] { new FeedItem(this.obs, obs) });
         }
-        public List<RefVariable> get_variables()
+        public List<IVariableV1> get_variables()
         {
-            return tf.get_collection<RefVariable>(tf.GraphKeys.GLOBAL_VARIABLES, this.scope);
+            return tf.get_collection<IVariableV1>(tf.GraphKeys.GLOBAL_VARIABLES, this.scope);
         }
-        public List<RefVariable> get_trainable_variables()
+        public List<IVariableV1> get_trainable_variables()
         {
-            return tf.get_collection<RefVariable>(tf.GraphKeys.TRAINABLE_VARIABLES, this.scope);
+            return tf.get_collection<IVariableV1>(tf.GraphKeys.TRAINABLE_VARIABLES, this.scope);
         }
 
     }

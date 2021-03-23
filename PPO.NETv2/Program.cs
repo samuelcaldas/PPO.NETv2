@@ -73,7 +73,7 @@ namespace PPO.NETv2
                         v_preds.Add(v_pred);     // Adiciona a v_pred ao buffer de v_pred
                         rewards.Add(reward);     // Adiciona a recompensa ao buffer de recompensa
 
-                        (NDArray next_obs, double _reward, bool done, Gym.Collections.Dict info) = env.Step(act);   // envia a ação ao ambiente e recebe a próxima observação, a recompensa e se o passo terminou
+                        var (next_obs, _reward, done, _) = env.Step(act);   // envia a ação ao ambiente e recebe a próxima observação, a recompensa e se o passo terminou
                         reward = _reward;
 
                         if (done)
